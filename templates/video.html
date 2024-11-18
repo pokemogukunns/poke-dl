@@ -2,7 +2,7 @@
 <html lang="ja">
 
 <head>
-    <title>連番を簡単に生成！！</title>
+    <title>Youtube Downloader</title>
     <link rel="stylesheet" href="/css/pure-min.css">
     <link rel="stylesheet" href="/css/grids-responsive-min.css">
     <link rel="stylesheet" href="/css/ionicons.min.css">
@@ -21,19 +21,19 @@
                 <div class="pure-u-1 pure-u-md-12-24 searchbar">
 
                     <a href="/requestform">新機能の要望やバグ報告</a><br>
-                    <a href="/bbs">掲示板</a>
+                    <a href="/bbs">yukiの掲示板</a>
+続けてダウンロードするなら検索
                     <form class="pure-form" action="/search" method="get">
                         <fieldset>
-                            <input type="search" id="searchbox" autocomplete="on" autocorrect="on" autocapitalize="none"
-                                spellcheck="false" name="q" placeholder="検索" title="検索" value="">
+                            <input type="search" id="searchbox" autocomplete="on" autocorrect="on" autocapitalize="none" spellcheck="false" name="q" placeholder="検索" title="検索" value="">
                         </fieldset>
                     </form>
                 </div>
-            </div>
+            </div>サムネ↓<br>
+            <img src="https://img.youtube.com/vi/{{ videoid }}/0.jpg">
+            もしみるなら⬇️
             <div id="player-container" class="h-box">
-                <video style="outline:none;width:100%;background-color:#000;" playsinline="" poster="{% if proxy == "True" %}/thumbnail?v={{ videoid }}{% else %}https://img.youtube.com/vi/{{ videoid }}/0.jpg{% endif
-                    %}" id="player" class="on-video_player video-js player-style-invidious" controls=""
-                    loadedmetadata="settime()" loop="">
+                <video style="outline:none;width:100%;background-color:#000;" playsinline=""  id="player" class="on-video_player video-js player-style-invidious" controls="" loadedmetadata="settime()" loop="">
                     {% for videourl in videourls%}
                     <source src="{{videourl}}">
                     {% endfor %}
@@ -41,15 +41,13 @@
                 </video>
             </div>
             <div class="h-box">
-                <h1>{{ videotitle }}</h1>
+                <h1>タイトル：{{ videotitle }}</h1>
             </div>
             <div class="pure-g">
                 <div class="pure-u-1 pure-u-lg-1-5">
                     <a href="{{ videourls[0] }}" target="_blank">ダウンロード</a><br>
-                    <a
-                        href="javascript:{navigator.share({title: '動画を共有',text: '{{videotitle}}',url: location.protocol+'//'+document.domain+'/watch?v={{ videoid }}'+'&t='+Math.floor(document.getElementById('player').currentTime),})}">現時点の動画を共有</a><br>
-                    <a
-                        href="javascript:{navigator.share({title: '動画を共有',text: '{{videotitle}}',url: location.href,})}">動画を共有</a><br>
+                    <a href="javascript:{navigator.share({title: '動画を共有',text: '{{videotitle}}',url: location.protocol+'//'+document.domain+'/watch?v={{ videoid }}'+'&t='+Math.floor(document.getElementById('player').currentTime),})}">現時点の動画を共有</a><br>
+                    <a href="javascript:{navigator.share({title: '動画を共有',text: '{{videotitle}}',url: location.href,})}">動画を共有</a><br>
                     <hr>
                 </div>
                 <div class="pure-u-1 pure-u-lg-3-5">
@@ -57,13 +55,13 @@
                         <a href="/channel/{{authorid}}" style="display:block;width:fit-content;width:-moz-fit-content">
                             <div class="channel-profile">
 
-                                <img src="{{authoricon}}">
+                                チャンネルアイコン：<img src="{{authoricon}}">
 
-                                <span id="channel-name">{{ author }}</span>
+                                チャンネル名：<span id="channel-name">{{ author }}</span>
                             </div>
                         </a>
                         <div id="description-box">
-                            <div id="descriptionWrapper">{{ description | safe}}</div>
+                            概要：<div id="descriptionWrapper">{{ description | safe}}</div>
                         </div>
                         <hr>
                         <div id="comments">
