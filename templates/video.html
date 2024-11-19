@@ -120,42 +120,93 @@
       });
   </script>
     <script>
-        document.cookie = "yuki=True;max-age=2592000;";
-        function getCookie(name) { let matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)")); return matches ? decodeURIComponent(matches[1]) : undefined; }
-        //document.getElementById("autonext").checked = getCookie("autonext");
-        function checkautoplay(){document.cookie = "autonext="+document.getElementById("autonext").checked+";max-age=2592000;";}
-        document.getElementById("loop").checked = getCookie("loop");
+    // クッキー「yuki」をTrueに設定し、期限を30日以上に設定
+    document.cookie = "yuki=True;max-age=259200000;";
+
+    // クッキーから指定された名前の値を取得する関数
+    function getCookie(name) {
+        let matches = document.cookie.match(new RegExp("(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"));
+        return matches ? decodeURIComponent(matches[1]) : undefined;
+    }
+
+    // 自動再生の状態をチェックする関数（コメントアウトされている）
+    //document.getElementById("autonext").checked = getCookie("autonext");
+
+    // 自動再生設定をクッキーに保存する関数
+    function checkautoplay() {
+        document.cookie = "autonext=" + document.getElementById("autonext").checked + ";max-age=2592000;";
+    }
+
+    // 「loop」チェックボックスの状態をクッキーから取得し、プレーヤーのループ設定を更新
+    document.getElementById("loop").checked = getCookie("loop");
+    document.getElementById("player").loop = document.getElementById("loop").checked;
+
+    // ループ設定を変更した際にクッキーを更新し、プレーヤーのループ状態を反映させる関数
+    function changeloop() {
+        document.cookie = "autonext=" + document.getElementById("loop").checked + ";max-age=2592000;";
         document.getElementById("player").loop = document.getElementById("loop").checked;
-        function changeloop(){document.cookie = "autonext="+document.getElementById("loop").checked+";max-age=2592000;";document.getElementById("player").loop = document.getElementById("loop").checked}
-        //function sleep(waitMsec) {var startMsec = new Date();while (new Date() - startMsec < waitMsec);}
-        //function autopage(){if (document.getElementById('autonext').checked) {sleep(5000);document.cookie = "autonext=true;max-age=2592000;";location.href = "/watch?v={{res[0]["id"]}}";}else{document.cookie = "autonext=false;max-age=2592000;";}}
-        function getUrlQueries() { var queryStr = window.location.search.slice(1); queries = {}; queryStr.split('&').forEach(function (queryStr) { var queryArr = queryStr.split('='); queries[queryArr[0]] = queryArr[1]; }); return queries; }
-        if (typeof getUrlQueries().t === "undefined") { t = 0; } else { document.getElementById("player").currentTime = getUrlQueries().t; }
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/comments?v=" + getUrlQueries().v);
-        xhr.onload = function () {
-            if (xhr.status != 500) {
-                document.getElementById('comments').innerHTML = xhr.responseText;
-            }
-            else { document.getElementById('comments').innerHTML = "エラーが発生しました。再読み込みを試してください"; }
-        };
-        xhr.send();
-        if (document.domain != "yukigennumber.ddo.jp") { document.getElementById("ads_box").innerHTML = ""; }
-        document.getElementById("player").style.maxHeight = document.documentElement.clientHeight * 0.8 + "px";
+    }
 
-        document.onkeydown = keydown;
-        function keydown(key) {
-            var v = document.getElementById("player");
+    // 過去のコメントアウトされた関数（不要であれば削除可能）
+    //function sleep(waitMsec) {var startMsec = new Date();while (new Date() - startMsec < waitMsec);}
+    //function autopage(){if (document.getElementById('autonext').checked) {sleep(5000);document.cookie = "autonext=true;max-age=2592000;";location.href = "/watch?v={{res[0]["id"]}}";}else{document.cookie = "autonext=false;max-age=2592000;";}}
 
-            if (key.keyCode == 32 || key.keyCode == 75) {
-                if (v.paused == true) {
-                    v.play();
-                } else {
-                    v.pause();
-                }
+    // URLのクエリパラメータを取得する関数
+    function getUrlQueries() {
+        var queryStr = window.location.search.slice(1);
+        queries = {};
+        queryStr.split('&').forEach(function (queryStr) {
+            var queryArr = queryStr.split('=');
+            queries[queryArr[0]] = queryArr[1];
+        });
+        return queries;
+    }
+
+    // クエリパラメータ「t」がない場合は0を設定、ある場合は動画の再生位置を設定
+    if (typeof getUrlQueries().t === "undefined") {
+        t = 0;
+    } else {
+        document.getElementById("player").currentTime = getUrlQueries().t;
+    }
+
+    // コメントを非同期で取得して表示するリクエスト
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "/comments?v=" + getUrlQueries().v);
+    xhr.onload = function () {
+        if (xhr.status != 500) {
+            document.getElementById('comments').innerHTML = xhr.responseText;
+        } else {
+            document.getElementById('comments').innerHTML = "エラーが発生しました。再読み込みを試してください";
+        }
+    };
+    xhr.send();
+
+    // ドメインが指定のものでない場合、広告ボックスを空にする
+    if (document.domain != "yukigennumber.ddo.jp") {
+        document.getElementById("ads_box").innerHTML = "";
+    }
+
+    // プレーヤーの最大高さを画面高さの80%に設定
+    document.getElementById("player").style.maxHeight = document.documentElement.clientHeight * 0.8 + "px";
+
+    // キー入力を検出するイベントリスナーを追加
+    document.onkeydown = keydown;
+
+    // キー操作に応じて動画の再生・一時停止を切り替える関数
+    function keydown(key) {
+        var v = document.getElementById("player");
+
+        // スペースキーまたは「k」キーで再生/一時停止を切り替え
+        if (key.keyCode == 32 || key.keyCode == 75) {
+            if (v.paused == true) {
+                v.play();
+            } else {
+                v.pause();
             }
         }
-    </script>
+    }
+</script>
+
     <script>$('#searchbox').autocomplete({
             source: function (request, response) {
                 {
