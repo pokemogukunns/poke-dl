@@ -2,10 +2,37 @@
 <html>
 <head>
     <title>動画データを取得中</title>
+    <style>
+        /* ユーザーが操作できないようにする */
+        video {
+            pointer-events: none; /* マウスイベントを無効化 */
+            width: 100%; /* 必要に応じてサイズ調整 */
+            height: auto;
+        }
+    </style>
 </head>
 <body>
     <img src="https://pokemogukunns.github.io/poke-dl/loading-dark.5ecfc863.gif" />
+    <video id="randomVideo" autoplay loop muted>
+        <source id="videoSource" type="video/mp4">
+    </video>
     <br>処理中です<br>ちょっと待ってね
     <script>setTimeout(function(){location.reload();},5000);</script>
+    <script>
+        // 動画のリスト
+        const videos = ["https://pokemogukunns.github.io/poke-dl/load1.mp4", "https://pokemogukunns.github.io/poke-dl/load2.mp4", "https://pokemogukunns.github.io/poke-dl/load3.mp4"];
+
+        // ランダムに動画を選択
+        const randomIndex = Math.floor(Math.random() * videos.length);
+        const selectedVideo = videos[randomIndex];
+
+        // 動画のソースを設定
+        const videoElement = document.getElementById('randomVideo');
+        const sourceElement = document.getElementById('videoSource');
+        sourceElement.src = selectedVideo;
+
+        // 動画をロードして再生
+        videoElement.load();
+    </script>
 </body>
 </html>
