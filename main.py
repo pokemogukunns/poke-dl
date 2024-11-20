@@ -45,11 +45,11 @@ def apirequest(url):
             if res.status_code == 200 and is_json(res.text):
                 return res.text
             else:
-                print(f"エラー:{api}")
+                print(f"エラー:{api}乙ー")
                 apis.append(api)
                 apis.remove(api)
         except:
-            print(f"タイムアウト:{api}")
+            print(f"タイムアウト:{api}😆乙！詩寝(しね)")
             apis.append(api)
             apis.remove(api)
     raise APItimeoutError("APIがタイムアウトしました")
