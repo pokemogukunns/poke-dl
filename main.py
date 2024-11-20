@@ -323,38 +323,38 @@ def APIwait(request: Request,exception: APItimeoutError):
 
 
 
-import logging
-import time
-from datetime import datetime, timedelta
+#import logging
+#import time
+#from datetime import datetime, timedelta
 
 # ロギング設定
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+#logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # 想定処理時間を計算してログに表示する関数
-def log_with_estimated_time(start_time, estimated_duration_seconds):
+#def log_with_estimated_time(start_time, estimated_duration_seconds):
     # 想定終了時刻を計算
-    estimated_end_time = start_time + timedelta(seconds=estimated_duration_seconds)
-    logging.info(f"想定終了時刻: {estimated_end_time.strftime('%Y-%m-%d %H:%M:%S')}")
+    #estimated_end_time = start_time + timedelta(seconds=estimated_duration_seconds)
+    #logging.info(f"想定終了時刻: {estimated_end_time.strftime('%Y-%m-%d %H:%M:%S')}")
 
 # 処理開始時間
-start_time = datetime.now()
+#start_time = datetime.now()
 
 # 想定処理時間（秒）
-estimated_duration_seconds = 120  # 例えば、2分（120秒）の想定処理時間
+#estimated_duration_seconds = 120  # 例えば、2分（120秒）の想定処理時間
 
 # 処理開始ログ
-logging.info(f"処理開始時刻: {start_time.strftime('%Y-%m-%d %H:%M:%S')}")
+#logging.info(f"処理開始時刻: {start_time.strftime('%Y-%m-%d %H:%M:%S')}")
 
 # 想定終了時刻をログに表示
-log_with_estimated_time(start_time, estimated_duration_seconds)
+#log_with_estimated_time(start_time, estimated_duration_seconds)
 
 # 実際の処理（ここでは単に待機時間をシミュレート）
-time.sleep(estimated_duration_seconds)
+#time.sleep(estimated_duration_seconds)
 
 # 処理終了ログ
-end_time = datetime.now()
-logging.info(f"処理終了時刻: {end_time.strftime('%Y-%m-%d %H:%M:%S')}")
+#end_time = datetime.now()
+#logging.info(f"処理終了時刻: {end_time.strftime('%Y-%m-%d %H:%M:%S')}")
 
 # 処理時間を表示
-elapsed_time = end_time - start_time
-logging.info(f"実際の処理時間: {elapsed_time}")
+#elapsed_time = end_time - start_time
+#logging.info(f"実際の処理時間: {elapsed_time}")
