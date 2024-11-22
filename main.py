@@ -45,11 +45,11 @@ def apirequest(url):
             if res.status_code == 200 and is_json(res.text):
                 return res.text
             else:
-                print(f"エラー:{api}乙ー")
+                print(f"エラー:{api}")
                 apis.append(api)
                 apis.remove(api)
         except:
-            print(f"タイムアウト:{api}😆乙！詩寝(しね)")
+            print(f"タイムアウト:{api}")
             apis.append(api)
             apis.remove(api)
     raise APItimeoutError("APIがタイムアウトしました")
@@ -213,6 +213,17 @@ def video(v:str,response: Response,request: Request,yuki: Union[str] = Cookie(No
     t = get_data(videoid)
     response.set_cookie("yuki","True",max_age=60 * 60 * 24 * 7)
     return template('video.html', {"request": request,"videoid":videoid,"videourls":t[1],"res":t[0],"description":t[2],"videotitle":t[3],"authorid":t[4],"authoricon":t[6],"author":t[5],"proxy":proxy})
+
+@app.get('/api/', response_class=HTMLResponse)
+def video(v:str,response: Response,request: Request,yuki: Union[str] = Cookie(None),proxy: Union[str] = Cookie(None)):
+    if not(check_cokie(yuki)):
+        return redirect("/")
+    response.set_cookie(key="yuki", value="True",max_age=7*24*60*60)
+    videoid = v
+    t = get_data(videoid)
+    response.set_cookie("yuki","True",max_age=60 * 60 * 24 * 7)
+    return template('api.html', {"request": request,"videoid":videoid,"videourls":t[1],"res":t[0],"description":t[2],"videotitle":t[3],"authorid":t[4],"authoricon":t[6],"author":t[5],"proxy":proxy})
+
 
 @app.get("/search", response_class=HTMLResponse,)
 def search(q:str,response: Response,request: Request,page:Union[int,None]=1,yuki: Union[str] = Cookie(None),proxy: Union[str] = Cookie(None)):
