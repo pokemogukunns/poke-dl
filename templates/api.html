@@ -2,33 +2,7 @@
 <html lang="ja">
 <head>
     <title>Youtube Video Deta</title>
-
-                <!--<h1>{{error-id}}</h1><br>-->
-
-            {thumbnail,url:https://img.youtube.com/vi/{{ videoid }}/0.jpg"><br>
-
-            もしみるなら⬇️<br>
-
-            <div id="player-container" class="h-box">
-
-                <video style="outline:none;width:100%;background-color:#000;" playsinline=""  id="player" class="on-video_player video-js player-style-invidious" controls="" loadedmetadata="settime()" loop="">
-
-                    {% for videourl in videourls%}
-
-                    <source src="{{videourl}}">
-
-                    {% endfor %}
-
-                </video>
-
-                </video><br>
-
-            </div>
-
-            <div class="h-box">
-
-                <h1>タイトル：{{ videotitle }}</h1>
-
+{"type":"video","title":"{{ videotitle }}","videoId":"{{ videoid }}","videoThumbnails":[{"quality":"maxres","url":"https://img.youtube.com/vi/{{ videoid }}/0.jpg","width":1280,"height":720},"description":"{{ description | safe}}",
             </div><br>
 
             <div class="pure-g">
@@ -61,13 +35,7 @@
 
                                 チャンネル名：<span id="channel-name">{{ author }}</span>
 
-                            </div>
-
-                        </a>
-
-                        <div id="description-box">
-
-                            概要：<div id="descriptionWrapper">{{ description | safe}}</div>
+                            
 
                         </div>
 
