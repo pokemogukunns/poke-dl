@@ -39,21 +39,21 @@ def apirequestj(url):
     global apidesu
     global max_time
     starttime = time.time()
-    for api in apis:
+    for api in apidesu:
         if  time.time() - starttime >= max_time -1:
             break
         try:
-            res = requests.get(api+url,timeout=max_api_wait_time)
+            res = requestsj.get(api+url,timeout=max_api_wait_time)
             if res.status_code == 200 and is_json(res.text):
                 return res.text
             else:
                 print(f"エラー:{api}")
-                apis.append(api)
-                apis.remove(api)
+                apidesu.append(api)
+                apidesu.remove(api)
         except:
             print(f"タイムアウト:{api}")
-            apis.append(api)
-            apis.remove(api)
+            apidesu.append(api)
+            apidesu.remove(api)
     raise APItimeoutError("APIがタイムアウトしました")
 
 def apirequest(url):
