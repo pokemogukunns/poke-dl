@@ -12,7 +12,7 @@ from cache import cache
 max_api_wait_time = 9.9
 max_time = 9.9
 apis = [r"https://inv.zzls.xyz/",r"https://inv.nadeko.net/"]
-apidesu = [r"https://vercel-tau-lac-41.vercel.app/get-video-data",r"https://inv.nadeko.net/api/v1/videos"]
+apidesu = [r"https://vercel-tau-lac-41.vercel.app/get-video-data/",r"https://inv.nadeko.net/api/v1/videos/"]
 #r"https://invidious.io/",r"https://invidious.privacyredirect.com/",r"https;//invidious.nerdvpn.de/",r"https://invidious.snopyta.org/",r"https://vid.puffyan.us/",r"https://invidious.kavin.rocks/",r"https://inv.riverside.rocks/"
 #r"https://thingproxy.freeboard.io/fetch/https://inv.nadeko.net/",r"https://invidious.privacyredirect.com/",r"https://invidious.nerdvpn.de/",r"https://inv.odyssey346.dev/",r"https://invidious.snopyta.org/",r"https://inv.nadeko.net/",r"http://yewtu.be/",r"http://invidious.perennialte.ch/",r"https://iv.datura.network/",r"http://invidious.materialio.us/",r"https://invidious.private.coffee/",r"https://invidious.protokolla.fi/",r"https://invidious.perennialte.ch/",r"https://yt.cdaut.de/",r"https://invidious.materialio.us/",r"https://yewtu.be/",r"https://invidious.fdn.fr/",r"https://inv.tux.pizza/",r"https://invidious.privacyredirect.com/",r"https://invidious.drgns.space/",r"https://vid.puffyan.us",r"https://invidious.jing.rocks/",r"https://youtube.076.ne.jp/",r"https://vid.puffyan.us/",r"https://inv.riverside.rocks/",r"https://invidio.xamh.de/",r"https://y.com.sb/",r"https://invidious.sethforprivacy.com/",r"https://invidious.tiekoetter.com/",r"https://inv.bp.projectsegfau.lt/",r"https://inv.vern.cc/",r"https://invidious.nerdvpn.de/",r"https://inv.privacy.com.de/",r"https://invidious.rhyshl.live/",r"https://invidious.slipfox.xyz/",r"https://invidious.weblibre.org/",r"https://invidious.namazso.eu/",r"https://invidious.jing.rocks"]
 url = requests.get(r'https://raw.githubusercontent.com/mochidukiyukimi/yuki-youtube-instance/main/instance.txt').text.rstrip()
@@ -130,7 +130,7 @@ def get_data(videoid):
     base_url = apidesu[0]
     #"https://vercel-tau-lac-41.vercel.app/get-video-data"
     # apiリストの最初の要素を使用
-    full_url = base_url + "/" + urllib.parse.quote(videoid)
+    full_url = base_url + urllib.parse.quote(videoid)
     # APIリクエストを送信して、レスポンスデータを取得
     response = apirequestj(full_url)
     
