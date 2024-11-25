@@ -12,7 +12,7 @@ from cache import cache
 max_api_wait_time = 9.9
 max_time = 9.9
 apis = [r"https://inv.zzls.xyz/",r"https://inv.nadeko.net/"]
-#apidesu = [r"https://vercel-tau-lac-41.vercel.app/get-video-data"]
+apidesu = [r"https://vercel-tau-lac-41.vercel.app/get-video-data"]
 #r"https://invidious.io/",r"https://invidious.privacyredirect.com/",r"https;//invidious.nerdvpn.de/",r"https://invidious.snopyta.org/",r"https://vid.puffyan.us/",r"https://invidious.kavin.rocks/",r"https://inv.riverside.rocks/"
 #r"https://thingproxy.freeboard.io/fetch/https://inv.nadeko.net/",r"https://invidious.privacyredirect.com/",r"https://invidious.nerdvpn.de/",r"https://inv.odyssey346.dev/",r"https://invidious.snopyta.org/",r"https://inv.nadeko.net/",r"http://yewtu.be/",r"http://invidious.perennialte.ch/",r"https://iv.datura.network/",r"http://invidious.materialio.us/",r"https://invidious.private.coffee/",r"https://invidious.protokolla.fi/",r"https://invidious.perennialte.ch/",r"https://yt.cdaut.de/",r"https://invidious.materialio.us/",r"https://yewtu.be/",r"https://invidious.fdn.fr/",r"https://inv.tux.pizza/",r"https://invidious.privacyredirect.com/",r"https://invidious.drgns.space/",r"https://vid.puffyan.us",r"https://invidious.jing.rocks/",r"https://youtube.076.ne.jp/",r"https://vid.puffyan.us/",r"https://inv.riverside.rocks/",r"https://invidio.xamh.de/",r"https://y.com.sb/",r"https://invidious.sethforprivacy.com/",r"https://invidious.tiekoetter.com/",r"https://inv.bp.projectsegfau.lt/",r"https://inv.vern.cc/",r"https://invidious.nerdvpn.de/",r"https://inv.privacy.com.de/",r"https://invidious.rhyshl.live/",r"https://invidious.slipfox.xyz/",r"https://invidious.weblibre.org/",r"https://invidious.namazso.eu/",r"https://invidious.jing.rocks"]
 url = requests.get(r'https://raw.githubusercontent.com/mochidukiyukimi/yuki-youtube-instance/main/instance.txt').text.rstrip()
@@ -34,6 +34,27 @@ def is_json(json_str):
     except json.JSONDecodeError as jde:
         pass
     return result
+
+def apirequestj(url):
+    global apidesu
+    global max_time
+    starttime = time.time()
+    for api in apis:
+        if  time.time() - starttime >= max_time -1:
+            break
+        try:
+            res = requests.get(api+url,timeout=max_api_wait_time)
+            if res.status_code == 200 and is_json(res.text):
+                return res.text
+            else:
+                print(f"エラー:{api}")
+                apis.append(api)
+                apis.remove(api)
+        except:
+            print(f"タイムアウト:{api}")
+            apis.append(api)
+            apis.remove(api)
+    raise APItimeoutError("APIがタイムアウトしました")
 
 def apirequest(url):
     global apis
@@ -106,11 +127,12 @@ def get_info(request):
 def get_data(videoid):
     global logs
     # 明示的にapiリストを使用する
-    base_url = "https://vercel-tau-lac-41.vercel.app/get-video-data"
+    base_url = apidesu[0]
+    #"https://vercel-tau-lac-41.vercel.app/get-video-data"
     # apiリストの最初の要素を使用
     full_url = base_url + "/" + urllib.parse.quote(videoid)
     # APIリクエストを送信して、レスポンスデータを取得
-    response = apirequest(full_url)
+    response = apirequestj(full_url)
     
     # レスポンスをJSONとして解析
     t = json.loads(response)
