@@ -106,7 +106,8 @@ def get_info(request):
 def get_data(videoid):
     global logs
     # 明示的にapiリストを使用する
-    base_url = https://vercel-tau-lac-41.vercel.app/get-video-data  # apiリストの最初の要素を使用
+    base_url = "https://vercel-tau-lac-41.vercel.app/get-video-data"
+    # apiリストの最初の要素を使用
     full_url = base_url + "/" + urllib.parse.quote(videoid)
     # APIリクエストを送信して、レスポンスデータを取得
     response = apirequest(full_url)
