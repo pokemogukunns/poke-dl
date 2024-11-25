@@ -108,6 +108,11 @@ def get_data(videoid):
     # 明示的にapiリストを使用する
     base_url = api[0]  # apiリストの最初の要素を使用
     full_url = base_url + "/" + urllib.parse.quote(videoid)
+    # APIリクエストを送信して、レスポンスデータを取得
+    response = apirequest(full_url)
+    
+    # レスポンスをJSONとして解析
+    t = json.loads(response)
     
     return [{"id":i["videoId"],"title":i["title"],"authorId":i["authorId"],"author":i["author"]} for i in t["recommendedVideos"]],list(reversed([i["url"] for i in t["formatStreams"]]))[:2],t["descriptionHtml"].replace("\n","<br>"),t["title"],t["authorId"],t["author"],t["authorThumbnails"][-1]["url"]
 #,"error":i[error-id]
